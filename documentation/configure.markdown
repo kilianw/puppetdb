@@ -491,6 +491,7 @@ and `threads` parameters.
 This setting sets the maximum frame size for persisted activemq messages
 supplied in bytes.  Default value is 209715200 (i.e 200 MB).
 
+
 `[jetty]` (HTTP) Settings
 -----
 

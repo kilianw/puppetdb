@@ -103,18 +103,18 @@
   {(s/optional-key :dlo-compression-threshold) (pls/defaulted-maybe String "1d")
    (s/optional-key :threads) (pls/defaulted-maybe s/Int half-the-cores)
    (s/optional-key :store-usage) s/Int
-   (s/optional-key :max-frame-size) (pls/defaulted-maybe String "209715200")
+   (s/optional-key :max-frame-size) (pls/defaulted-maybe s/Int 209715200)
    (s/optional-key :temp-usage) s/Int
-   (s/optional-key :memory-usage) s/Int })
+   (s/optional-key :memory-usage) s/Int})
 
 (def command-processing-out
   "Schema for parsed/processed command processing config - currently incomplete"
   {:dlo-compression-threshold Period
    :threads s/Int
-   :max-frame-size s/Str
+   :max-frame-size s/Int
+   (s/optional-key :memory-usage) s/Int
    (s/optional-key :store-usage) s/Int
-   (s/optional-key :temp-usage) s/Int
-   (s/optional-key :memory-usage) s/Int})
+   (s/optional-key :temp-usage) s/Int})
 
 (def puppetdb-config-in
   "Schema for validating the [puppetdb] block"
@@ -325,8 +325,6 @@
         url-prefix   (normalize-url-prefix (get global :url-prefix ""))]
     (when (:event-query-limit global)
       (log/warn "The configuration item `event-query-limit` in the [global] section is deprecated and now ignored. It will be removed in the future."))
-    (when url-prefix
-      (log/warn "The configuration item `url-prefix` in the [global] section is deprecated. It will be removed in the future."))
     (update-in config [:global]
                (fn [global-config]
                  (-> global-config
